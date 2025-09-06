@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monotree</title>
+    <!-- Use Tailwind CSS CDN for simplicity and a single file -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .carousel-snap-scroll {
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+        .carousel-snap-scroll > div {
+            scroll-snap-align: start;
+            flex-shrink: 0;
+        }
+        .testimonial-carousel::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .testimonial-carousel {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+    </style>
+</head>
+<body class="bg-[#F9FAFB] text-gray-800">
+
+    <!-- Navbar -->
+    <header class="sticky top-0 bg-white shadow-sm z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="#" class="flex items-center space-x-2">
+                        <!-- Monotree Logo SVG -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.0004 0.999512L1.75138 6.78651L12.0004 12.5735L22.2494 6.78651L12.0004 0.999512Z" fill="black" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12.0004 13.9165L1.75138 8.12951L1.75138 22.0675L12.0004 22.0675L12.0004 13.9165Z" fill="black" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22.2494 8.12951L12.0004 13.9165V22.0675L22.2494 22.0675V8.12951Z" fill="black" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="font-bold text-2xl">Monotree</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center text-gray-600 font-medium">
+                    <a href="#" class="hover:text-gray-900 transition-colors duration-200">Product</a>
+                    <a href="#" class="hover:text-gray-900 transition-colors duration-200">Why us?</a>
+                    <a href="#" class="hover:text-gray-900 transition-colors duration-200">Cases</a>
+                    <a href="#" class="hover:text-gray-900 transition-colors duration-200">About us</a>
+                    <a href="#" class="hover:text-gray-900 transition-colors duration-200">Blog</a>
+                    <button class="bg-[#B9E6A1] text-black px-6 py-3 rounded-full font-bold shadow-md hover:shadow-lg transition-all duration-300">
+                        Book a demo
+                    </button>
+                    <div class="flex items-center space-x-2">
+                        <span>English</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-500 hover:text-gray-900 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-sm absolute w-full left-0 top-20 transition-transform duration-300 transform -translate-y-full">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+                <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100 rounded-md">Product</a>
+                <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100 rounded-md">Why us?</a>
+                <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100 rounded-md">Cases</a>
+                <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100 rounded-md">About us</a>
+                <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100 rounded-md">Blog</a>
+                <button class="w-full bg-[#B9E6A1] text-black px-6 py-3 rounded-full font-bold shadow-md hover:shadow-lg transition-all duration-300">
+                    Book a demo
+                </button>
+                <div class="flex items-center justify-center space-x-2 py-2">
+                    <span>English</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
+                    <!-- Left side - Content -->
+                    <div class="order-2 md:order-1 text-center md:text-left">
+                        <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight tracking-tight">
+                            Put people <span class="relative inline-block">
+                                first
+                                <span class="absolute left-0 bottom-0 h-2 bg-[#B9E6A1] w-full transform translate-y-2 opacity-50 rounded-full"></span>
+                            </span>
+                        </h1>
+                        <p class="mt-6 text-lg text-gray-600 leading-relaxed max-w-xl mx-auto md:mx-0">
+                            Fast, user-friendly and engaging — transform HR into people and culture, and streamline your daily operations with your own branded app.
+                        </p>
+                        <div class="mt-8 flex justify-center md:justify-start items-center space-x-4">
+                            <!-- Star rating -->
+                            <div class="flex space-x-1 text-yellow-400">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.381-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.381-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.381-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.381-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.381-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            </div>
+                            <span class="text-gray-600">4.9 Average user rating</span>
+                        </div>
+                        <div class="mt-8 grid grid-cols-2 gap-4 max-w-sm mx-auto md:mx-0">
+                            <div class="text-center md:text-left">
+                                <h3 class="text-4xl font-extrabold tracking-tighter">75.2%</h3>
+                                <p class="text-gray-600 mt-1">Average daily activity</p>
+                            </div>
+                            <div class="text-center md:text-left">
+                                <h3 class="text-4xl font-extrabold tracking-tighter">4.2</h3>
+                                <p class="text-gray-600 mt-1">Average daily app opens</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right side - Visual -->
+                    <div class="order-1 md:order-2 flex justify-center items-center">
+                        <img src="https://placehold.co/600x600/E5E7EB/A3A3A3?text=Wireframe+Placeholder" alt="Monotree App Wireframe" class="w-full h-auto rounded-3xl shadow-xl">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Client Logos Section -->
+        <section class="py-12 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-wrap justify-center items-center gap-10">
+                    <img src="https://placehold.co/150x50/F9FAFB/A3A3A3?text=GASOLINE+GRILL" alt="Logo" class="h-10 opacity-75 grayscale hover:opacity-100 hover:grayscale-0 transition-all">
+                    <img src="https://placehold.co/150x50/F9FAFB/A3A3A3?text=EATUP" alt="Logo" class="h-10 opacity-75 grayscale hover:opacity-100 hover:grayscale-0 transition-all">
+                    <img src="https://placehold.co/150x50/F9FAFB/A3A3A3?text=GULDSMENDEN+HOTELS" alt="Logo" class="h-10 opacity-75 grayscale hover:opacity-100 hover:grayscale-0 transition-all">
+                    <img src="https://placehold.co/150x50/F9FAFB/A3A3A3?text=DSB" alt="Logo" class="h-10 opacity-75 grayscale hover:opacity-100 hover:grayscale-0 transition-all">
+                    <img src="https://placehold.co/150x50/F9FAFB/A3A3A3?text=COFOCO" alt="Logo" class="h-10 opacity-75 grayscale hover:opacity-100 hover:grayscale-0 transition-all">
+                    <img src="https://placehold.co/150x50/F9FAFB/A3A3A3?text=Copenhagen+Coffee+Lab" alt="Logo" class="h-10 opacity-75 grayscale hover:opacity-100 hover:grayscale-0 transition-all">
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Highlights Grid Section -->
+        <section class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl lg:text-5xl font-extrabold tracking-tight">
+                        Product <span class="relative inline-block">
+                            highlights
+                            <span class="absolute left-0 bottom-0 h-2 bg-[#B9E6A1] w-full transform translate-y-2 opacity-50 rounded-full"></span>
+                        </span>
+                    </h2>
+                    <p class="mt-4 text-gray-600">See all features &rarr;</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Card 1: AI Chat Bot -->
+                    <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-100">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm font-semibold">New feature</div>
+                        </div>
+                        <h3 class="text-3xl font-extrabold tracking-tight">
+                            Our AI Chat Bot is here <span class="inline-block text-2xl animate-pulse">✨</span>
+                        </h3>
+                        <p class="mt-4 text-lg text-gray-600">
+                            You now have your own AI Chat Bot that answers employee questions in a fun, intuitive way - saving valuable time for HR and operations.
+                        </p>
+                        <div class="mt-8 space-y-4 text-gray-700">
+                            <div class="flex items-start space-x-3">
+                                <svg class="w-6 h-6 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2-10H7a2 2 0 00-2 2v4a2 2 0 002 2h2v2h4v-2h2a2 2 0 002-2v-4a2 2 0 00-2-2z"></path></svg>
+                                <div>
+                                    <h4 class="font-bold">Instant value</h4>
+                                    <p class="text-sm">No extra setup or training needed. It works immediately with the content you’ve already uploaded.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <svg class="w-6 h-6 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                <div>
+                                    <h4 class="font-bold">Deep content understanding</h4>
+                                    <p class="text-sm">Reads all handbook and course content including PDFs, Word documents, Excel files - and even understands uploaded videos.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 2: App Mockup Grid -->
+                    <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 flex flex-col items-center justify-center">
+                        <img src="https://placehold.co/400x500/F9FAFB/A3A3A3?text=App+Mockup" alt="App Mockup" class="w-full h-auto rounded-3xl">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Carousel Section -->
+        <section class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center mb-12">
+                    <div>
+                        <h2 class="text-4xl lg:text-5xl font-extrabold tracking-tight">
+                            What do our <span class="relative inline-block">
+                                customers
+                                <span class="absolute left-0 bottom-0 h-2 bg-[#B9E6A1] w-full transform translate-y-2 opacity-50 rounded-full"></span>
+                            </span> say?
+                        </h2>
+                        <p class="mt-4 text-gray-600">Read all our cases &rarr;</p>
+                    </div>
+                    <!-- Carousel navigation buttons -->
+                    <div class="hidden md:flex space-x-4">
+                        <button id="prev-button" class="bg-gray-200 p-4 rounded-full hover:bg-gray-300 transition-colors duration-200">
+                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                        </button>
+                        <button id="next-button" class="bg-gray-200 p-4 rounded-full hover:bg-gray-300 transition-colors duration-200">
+                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+                    </div>
+                </div>
+                <!-- Testimonials container -->
+                <div id="testimonial-carousel" class="flex overflow-x-auto testimonial-carousel space-x-6 pb-4 md:pb-0">
+                    <!-- Testimonial Card 1 -->
+                    <div class="flex-none w-11/12 md:w-1/3">
+                        <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 h-full flex flex-col justify-between">
+                            <div>
+                                <span class="text-4xl text-gray-300">“</span>
+                                <p class="mt-2 text-lg text-gray-700 italic">
+                                    We launched our app in the autumn of 2021 and I honestly cannot understand how we could run our business beforehand. With the app, communication has not only become easier, but it has also been strengthened both within individual hotels and across the company.
+                                </p>
+                            </div>
+                            <div class="mt-6 flex items-center space-x-4">
+                                <img src="https://placehold.co/50x50/E5E7EB/A3A3A3?text=KR" alt="Karina Harbo Jensen" class="w-12 h-12 rounded-full">
+                                <div>
+                                    <p class="font-bold">Karina Harbo Jensen</p>
+                                    <p class="text-sm text-gray-500">CMO, Familien Bühimann</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial Card 2 -->
+                    <div class="flex-none w-11/12 md:w-1/3">
+                        <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 h-full flex flex-col justify-between">
+                            <div>
+                                <span class="text-4xl text-gray-300">“</span>
+                                <p class="mt-2 text-lg text-gray-700 italic">
+                                    Switching to Monotree has been exclusively positive! The implementation process has been smooth, and the support from the entire team has exceeded expectations.
+                                </p>
+                            </div>
+                            <div class="mt-6 flex items-center space-x-4">
+                                <img src="https://placehold.co/50x50/E5E7EB/A3A3A3?text=KW" alt="Kristine Warp" class="w-12 h-12 rounded-full">
+                                <div>
+                                    <p class="font-bold">Kristine Warp</p>
+                                    <p class="text-sm text-gray-500">Head of HR, Dyreparken</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial Card 3 -->
+                    <div class="flex-none w-11/12 md:w-1/3">
+                        <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 h-full flex flex-col justify-between">
+                            <div>
+                                <span class="text-4xl text-gray-300">“</span>
+                                <p class="mt-2 text-lg text-gray-700 italic">
+                                    Monotree has been a great tool for internal communication and it works flawlessly on mobile. We are also excited to have a platform where we can gather all handbooks and instructions in one place – where the information is easily accessible for everyone on their phone.
+                                </p>
+                            </div>
+                            <div class="mt-6 flex items-center space-x-4">
+                                <img src="https://placehold.co/50x50/E5E7EB/A3A3A3?text=IF" alt="Isak Fagerholm" class="w-12 h-12 rounded-full">
+                                <div>
+                                    <p class="font-bold">Isak Fagerholm</p>
+                                    <p class="text-sm text-gray-500">COO, Friends</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dark Section: Integrations -->
+        <section class="py-16 md:py-24 bg-gray-900 text-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl lg:text-5xl font-extrabold tracking-tight">Fully automatic integrations</h2>
+                <p class="mt-4 text-gray-400 max-w-2xl mx-auto">
+                    Our system seamlessly integrates with major scheduling platforms, allowing you to import your entire organization with one click.
+                </p>
+                <div class="mt-12">
+                    <img src="https://placehold.co/800x400/1F2937/9CA3AF?text=Integration+Diagram+Placeholder" alt="Integration Diagram" class="w-full h-auto rounded-3xl shadow-xl">
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-16 md:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl lg:text-5xl font-extrabold tracking-tight">
+                    Get your app in a few days.<br>
+                    Let’s get in touch!
+                </h2>
+                <p class="mt-4 text-gray-600 max-w-xl mx-auto">
+                    We love demonstrating our platform. Please don’t hesitate to contact us if you’re interested.
+                </p>
+                <button class="mt-8 bg-[#B9E6A1] text-black px-8 py-4 rounded-full font-bold text-lg shadow-md hover:shadow-lg transition-all duration-300">
+                    Book a demo
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-950 text-white py-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+                <!-- Logo Column -->
+                <div class="col-span-2 md:col-span-1">
+                    <a href="#" class="flex items-center space-x-2">
+                        <!-- Monotree Logo SVG (white) -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.0004 0.999512L1.75138 6.78651L12.0004 12.5735L22.2494 6.78651L12.0004 0.999512Z" fill="white" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12.0004 13.9165L1.75138 8.12951L1.75138 22.0675L12.0004 22.0675L12.0004 13.9165Z" fill="white" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22.2494 8.12951L12.0004 13.9165V22.0675L22.2494 22.0675V8.12951Z" fill="white" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="font-bold text-2xl">Monotree</span>
+                    </a>
+                </div>
+
+                <!-- Product Links -->
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Product</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Features</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Integrations</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company Links -->
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Company</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Why us?</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">About us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Stories Links -->
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Stories</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Cases</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Customers</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact & Social -->
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Contact</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Book a demo</a></li>
+                    </ul>
+                    <div class="mt-4 flex space-x-4">
+                        <!-- Social Icons (Placeholders) -->
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.233 6.452c.007.135.007.27.007.405 0 4.14-3.159 8.927-8.927 8.927-1.777 0-3.424-.52-4.814-1.423.245.029.489.043.738.043 1.444 0 2.771-.489 3.827-1.314-1.348-.029-2.486-.92-2.87-2.14.183.029.366.058.55.058.267 0 .524-.036.768-.1-.135-.029-.26-.065-.386-.11-1.341-.26-2.348-1.439-2.348-2.87 0-.029.007-.058.007-.087.489.267 1.05.438 1.636.467-1.02-.689-1.688-1.85-1.688-3.178 0-.705.183-1.37.5-.135.539-.816 1.258-1.465 2.062-1.928 2.29-.413 3.827-1.406 4.796-2.923.496 1.838.413 3.485.223 4.887 2.055-1.123 3.518-3.55 3.518-6.176 0-.26-.007-.52-.022-.772.33-.298.618-.682.885-1.088z"></path></svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm3.367 7.954h-1.55v4.545h1.55v-4.545zm-4.867 0h-1.55v4.545h1.55v-4.545zM12 4.148c-4.32 0-7.83 3.51-7.83 7.83s3.51 7.83 7.83 7.83 7.83-3.51 7.83-7.83S16.32 4.148 12 4.148zM12 6.818c-2.85 0-5.182 2.332-5.182 5.182s2.332 5.182 5.182 5.182 5.182-2.332 5.182-5.182-2.332-5.182-5.182-5.182z"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('-translate-y-full');
+            mobileMenu.classList.toggle('translate-y-0');
+        });
+
+        // Testimonial carousel navigation
+        const carousel = document.getElementById('testimonial-carousel');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+
+        // Check for button existence before adding event listeners
+        if (prevButton && nextButton) {
+            nextButton.addEventListener('click', () => {
+                const cardWidth = carousel.querySelector('div').offsetWidth;
+                carousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
+            });
+            
+            prevButton.addEventListener('click', () => {
+                const cardWidth = carousel.querySelector('div').offsetWidth;
+                carousel.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+            });
+        }
+    </script>
+
+</body>
+</html>
